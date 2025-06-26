@@ -1,0 +1,1812 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOBALICIUS - Experience the Future of Boba</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background: #0a0a0a;
+            color: white;
+        }
+
+        /* Custom Properties */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-gradient: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 80%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
+            animation: bgShift 20s ease-in-out infinite;
+        }
+
+        @keyframes bgShift {
+            0%, 100% { transform: translateX(0) translateY(0); }
+            33% { transform: translateX(-20px) translateY(20px); }
+            66% { transform: translateX(20px) translateY(-20px); }
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 0;
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .navbar.scrolled {
+            padding: 15px 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(30px);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+        }
+
+        .nav-logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+
+        .nav-menu a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 10px 0;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gradient);
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: white;
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            max-width: 900px;
+            padding: 0 30px;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffffff 0%, #a78bfa 50%, #06b6d4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            animation: heroSlideUp 1s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 3rem;
+            font-weight: 300;
+            letter-spacing: 0.01em;
+            animation: heroSlideUp 1s ease-out 0.2s both;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: var(--accent-gradient);
+            color: white;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 40px rgba(79, 172, 254, 0.3);
+            animation: heroSlideUp 1s ease-out 0.4s both;
+            text-decoration: none;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 60px rgba(79, 172, 254, 0.4);
+        }
+
+        .hero-cta::after {
+            content: '→';
+            transition: transform 0.3s ease;
+        }
+
+        .hero-cta:hover::after {
+            transform: translateX(5px);
+        }
+
+        @keyframes heroSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Floating Elements */
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .floating-boba {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            animation: floatBoba 8s ease-in-out infinite;
+        }
+
+        .floating-boba:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .floating-boba:nth-child(2) { top: 60%; left: 85%; animation-delay: 2s; }
+        .floating-boba:nth-child(3) { top: 30%; left: 80%; animation-delay: 4s; }
+        .floating-boba:nth-child(4) { top: 70%; left: 15%; animation-delay: 6s; }
+
+        @keyframes floatBoba {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+            50% { transform: translateY(-30px) rotate(180deg); opacity: 1; }
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 120px 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 4rem;
+            background: linear-gradient(135deg, #ffffff 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        /* Products Section */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 80px;
+        }
+
+        .product-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 30px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-card:hover::before {
+            opacity: 1;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 250px;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .product-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .product-desc {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Features Section */
+        .features {
+            background: var(--dark-gradient);
+            border-radius: 40px;
+            padding: 80px 40px;
+            margin: 80px 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 40px 30px;
+            background: var(--glass-bg);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .feature-desc {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--glass-bg);
+            border-radius: 40px;
+            padding: 80px 40px;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+        }       
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 60px;
+            margin-top: 60px;
+            align-items: start;
+        }       
+
+        /* Contact Person Section */
+        .contact-info {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+            padding: 40px;
+            border-radius: 24px;
+            color: #ffffff;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }       
+
+        .contact-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            font-weight: 700;
+            color: #ffffff;
+            text-align: center;
+        }       
+
+        .contact-info p {
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+            opacity: 0.8;
+            color: #ffffff;
+            text-align: center;
+        }       
+
+        .contact-info p strong {
+            color: #ffffff;
+            font-weight: 600;
+        }       
+
+        /* Social Media Section */
+        .social-section {
+            background: linear-gradient(135deg, rgba(52, 73, 94, 0.15) 0%, rgba(44, 62, 80, 0.1) 100%);
+            padding: 40px;
+            border-radius: 24px;
+            color: #ffffff;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }       
+
+        .social-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            font-weight: 700;
+            text-align: center;
+            color: #ffffff;
+        }       
+
+        .social-links {
+            display: grid;
+            gap: 15px;
+        }       
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-weight: 500;
+        }       
+
+        .social-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(5px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            color: #ffffff;
+        }       
+
+        .social-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }       
+
+        .social-icon img {
+            width: 20px;
+            height: 20px;
+            filter: brightness(0) saturate(100%) invert(19%) sepia(8%) saturate(1067%) hue-rotate(169deg) brightness(95%) contrast(86%);
+            transition: filter 0.3s ease;
+        }       
+
+        .social-link:hover .social-icon img {
+            filter: brightness(0) saturate(100%) invert(11%) sepia(12%) saturate(1159%) hue-rotate(169deg) brightness(96%) contrast(94%);
+        }       
+
+        /* WhatsApp Float */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(79, 172, 254, 0.5);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4); }
+            50% { box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4), 0 0 0 10px rgba(79, 172, 254, 0.2); }
+            100% { box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4); }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .section {
+                padding: 80px 20px;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .features, .contact {
+                padding: 60px 20px;
+                margin: 60px 0;
+            }
+
+            .whatsapp-float {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+
+        /* Scroll Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-gradient);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+        }
+
+        /* Enhanced Sticky Navbar with Shadow */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 0;
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        /* Navbar in Home Section - Blur Effect */
+        .navbar.home-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar.other-section {
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .navbar.scrolled {
+            padding: 15px 0;
+        }
+
+        .navbar.scrolled.other-section {
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .navbar.scrolled.shadow-heavy {
+            box-shadow: 0 12px 40px rgb(0, 0, 0);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+        }
+
+        .nav-logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+            transition: all 0.3s ease;
+        }
+
+        /* Desktop Navigation */
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-menu a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 10px 16px;
+            border-radius: 25px;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--accent-gradient);
+            transition: width 0.3s ease;
+            border-radius: 1px;
+        }
+
+        .nav-menu a:hover {
+            color: white;
+            background: rgba(255, 107, 107, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-menu a:hover::after {
+            width: 80%;
+        }
+
+        .nav-menu a.active {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+        }
+
+        /* Mobile Menu Toggle Button */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 1001;
+            background: none;
+            border: none;
+        }
+
+        .hamburger-line {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        /* Mobile Menu Styles */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 80px 0 40px;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mobile-menu-list li {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-menu-list a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 20px 30px;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .mobile-menu-list a:hover {
+            background: rgba(255, 107, 107, 0.1);
+            color: #ff6b6b;
+            padding-left: 40px;
+        }
+
+        .mobile-menu-list a.active {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+        }
+
+        /* Mobile Menu Overlay */
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Hamburger Animation */
+        .mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .nav-container {
+                padding: 0 20px;
+            }
+
+            .nav-logo {
+                font-size: 1.5rem;
+            }
+
+            .section h1 {
+                font-size: 2.5rem;
+            }
+
+            .section p {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mobile-menu {
+                width: 100%;
+                right: -100%;
+            }
+
+            .mobile-menu.active {
+                right: 0;
+            }
+
+            .nav-container {
+                padding: 0 15px;
+            }
+
+            .nav-logo {
+                font-size: 1.3rem;
+            }
+
+            .section {
+                padding: 100px 20px 40px;
+            }
+
+            .section h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Enhanced hover effects for social links */
+        .social-link {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .social-link:hover::before {
+            left: 100%;
+        }
+
+        /* Navbar logo hover effect */
+        .nav-logo {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-logo::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,107,107,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .nav-logo:hover::after {
+            left: 100%;
+        }
+
+        /* Loading animation for images */
+        .product-image img {
+            opacity: 0;
+            animation: imageLoad 0.8s ease forwards;
+        }
+
+        @keyframes imageLoad {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Styling khusus untuk setiap platform */
+        .social-link[href*="instagram"]:hover {
+            background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
+        }
+        
+        .social-link[href*="facebook"]:hover {
+            background: #1877f2;
+        }
+        
+        .social-link[href*="tiktok"]:hover {
+            background: linear-gradient(45deg, #ff0050, #00f2ea);
+        }
+        
+        .social-link[href*="wa.me"]:hover {
+            background: #25d366;
+        }
+        
+        .social-link[href*="mailto"]:hover {
+            background: #ea4335;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .contact-info {
+                grid-template-columns: 1fr; /* Tetap 1fr untuk mobile */
+                gap: 25px; /* Sedikit kurangi gap untuk mobile */
+            }
+        
+            .section-title {
+                font-size: 2rem;
+            }
+        
+            .contact-container {
+                padding: 25px;
+            }
+        
+            .contact-person, .social-media {
+                padding: 20px;
+            }
+        
+            .social-link {
+                padding: 10px 14px;
+            }
+        
+            .social-icon {
+                width: 26px;
+                height: 26px;
+                margin-right: 10px;
+            }
+        
+            .social-icon img {
+                width: 14px;
+                height:14px;
+            }
+        
+            .social-text {
+                font-size: 0.95rem;
+            }
+        }       
+
+        @media (max-width: 480px) {
+            .contact {
+                padding: 40px 10px;
+            }
+        
+            .section-title {
+                font-size: 1.8rem;
+            }
+        
+            .contact-container {
+                padding: 20px;
+            }
+        
+            .contact-person, .social-media {
+                padding: 15px;
+            }
+        
+            .social-link {
+                padding: 8px 12px;
+            }
+        
+            .social-icon {
+                width: 24px;
+                height: 24px;
+                margin-right: 8px;
+            }
+        
+            .social-icon img {
+                width: 12px;
+                height: 12px;
+            }
+        
+            .social-text {
+                font-size: 0.9rem;
+            }
+        }       
+
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">BOBALICIUS</div>
+            
+            <!-- Desktop Menu -->
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#products" class="nav-link">Products</a></li>
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <ul class="mobile-menu-list">
+            <li><a href="#home" class="mobile-nav-link">🏠 Home</a></li>
+            <li><a href="#products" class="mobile-nav-link">🧋 Products</a></li>
+            <li><a href="#features" class="mobile-nav-link">⭐ Features</a></li>
+            <li><a href="#contact" class="mobile-nav-link">📞 Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/6281362917112?text=Halo,%20saya%20tertarik%20dengan%20menu%20BOBALICIUS!" class="whatsapp-float" target="_blank">
+        💬
+    </a>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="floating-elements">
+            <div class="floating-boba"></div>
+            <div class="floating-boba"></div>
+            <div class="floating-boba"></div>
+            <div class="floating-boba"></div>
+        </div>
+        
+        <div class="hero-content">
+            <h1 class="hero-title">BOBALICIUS</h1>
+            <p class="hero-subtitle">Rasakan Sensasi Boba Terbaik di Setiap Tegukan</p>
+            <a href="#products" class="hero-cta">Jelajahi Rasa Kami</a>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="section" id="products">
+        <h2 class="section-title animate-on-scroll">Menu Spesial Kami</h2>
+        <div class="products-grid">
+            <div class="product-card animate-on-scroll" onclick="showProductDetail('Classic Milk Tea')">
+                <div class="product-image">
+                    <img src="CLASSIC MILK TEA.jpg" alt="Classic Milk Tea">
+                </div>
+                <h3 class="product-name">Classic Milk Tea</h3>
+                <p class="product-desc">Kombinasi sempurna antara teh susu premium dengan boba kenyal yang memberikan pengalaman rasa autentik.</p>
+            </div>
+            
+            <div class="product-card animate-on-scroll" onclick="showProductDetail('Taro Delight')">
+                <div class="product-image">
+                    <img src="TARO BOBA TEA.jpg" alt="Taro Boba Tea">
+                </div>
+                <h3 class="product-name">Taro Delight</h3>
+                <p class="product-desc">Kelezatan taro alami yang creamy berpadu dengan boba segar, menciptakan harmoni rasa yang tak terlupakan.</p>
+            </div>
+            
+            <div class="product-card animate-on-scroll" onclick="showProductDetail('Tropical Paradise')">
+                <div class="product-image">
+                    <img src="TROPICAL FRUIT BOBA.jpg" alt="Tropical Fruit Boba">
+                </div>
+                <h3 class="product-name">Tropical Paradise</h3>
+                <p class="product-desc">Perpaduan buah-buahan tropis segar dengan boba rainbow yang memberikan ledakan rasa di setiap tegukan.</p>
+            </div>
+            
+            <div class="product-card animate-on-scroll" onclick="showProductDetail('Chocolate Heaven')">
+                <div class="product-image">
+                    <img src="CHOCOLATE BOBA TEA.jpg" alt="Chocolate Boba Tea">
+                </div>
+                <h3 class="product-name">Chocolate Heaven</h3>
+                <p class="product-desc">Surga cokelat premium dengan boba cokelat yang meleleh di mulut, sempurna untuk pencinta cokelat sejati.</p>
+            </div>
+
+            <div class="product-card animate-on-scroll" onclick="showProductDetail('Matcha Bliss')">
+                <div class="product-image">
+                    <img src="MATCHA BOBA TEA.jpg" alt="Matcha Boba Tea">
+                </div>
+                <h3 class="product-name">Matcha Bliss</h3>
+                <p class="product-desc">Matcha premium dari Jepang dengan rasa earthy yang balance, dikombinasikan dengan boba yang lembut dan creamy milk foam.</p>
+            </div>
+
+            <div class="product-card animate-on-scroll" onclick="showProductDetail('Strawberry Dream')">
+                <div class="product-image">
+                    <img src="STRAWBERRY BOBA TEA.jpg" alt="Strawberry Boba Tea">
+                </div>
+                <h3 class="product-name">Strawberry Dream</h3>
+                <p class="product-desc">Sensasi manis dan segar dari strawberry asli yang dipadu dengan boba kenyal dan susu vanilla yang creamy.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section">
+        <div class="features" id="features">
+            <h2 class="section-title animate-on-scroll">Mengapa Pilih BOBALICIUS?</h2>
+            <div class="features-grid">
+                <div class="feature-item animate-on-scroll">
+                    <span class="feature-icon">🌟</span>
+                    <h3 class="feature-title">Bahan Premium</h3>
+                    <p class="feature-desc">Menggunakan bahan-bahan terpilih berkualitas tinggi untuk rasa yang autentik dan berkelas.</p>
+                </div>
+                
+                <div class="feature-item animate-on-scroll">
+                    <span class="feature-icon">🥤</span>
+                    <h3 class="feature-title">Boba Fresh Daily</h3>
+                    <p class="feature-desc">Boba kami dibuat segar setiap hari dengan tekstur kenyal yang sempurna dan konsisten.</p>
+                </div>
+                
+                <div class="feature-item animate-on-scroll">
+                    <span class="feature-icon">⚡</span>
+                    <h3 class="feature-title">Layanan Cepat</h3>
+                    <p class="feature-desc">Proses pembuatan yang efisien tanpa mengurangi kualitas, siap dalam hitungan menit.</p>
+                </div>
+                
+                <div class="feature-item animate-on-scroll">
+                    <span class="feature-icon">💖</span>
+                    <h3 class="feature-title">Dibuat dengan Cinta</h3>
+                    <p class="feature-desc">Setiap minuman dibuat dengan penuh perhatian dan cinta untuk kepuasan pelanggan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section" id="contact">
+    <div class="contact">
+        <h2 class="section-title animate-on-scroll">Hubungi Kami</h2>
+        <div class="contact-grid">
+            <!-- Contact Person Section - dipindah ke atas -->
+            <div class="contact-info animate-on-scroll">
+                <h3>👤 Contact Person</h3>
+                <p><strong>Nama:</strong> Farhan Oktafianda</p>
+                <p><strong>WhatsApp:</strong> +62 813-6291-7112</p>
+                <p><strong>Email:</strong> bobalicius@gmail.com</p>
+                <p><strong>Jam Operasional:</strong> 14:00 - 21:30 WIB</p>
+            </div>
+
+            <!-- Social Media Section - sekarang di bawah -->
+            <div class="social-section animate-on-scroll">
+                <h3>🌐 Follow Our Journey</h3>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/bobalicius_24?igsh=MWdmNmE3eTZhdmh2NA==" class="social-link" target="_blank">
+                        <span class="social-icon"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg" alt="Instagram"></span>
+                        <span>@bobalicius_24</span>
+                    </a>
+                    
+                    <a href="https://www.facebook.com/share/16SS1oENd8/" class="social-link" target="_blank">
+                        <span class="social-icon"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/facebook.svg" alt="Facebook"></span>
+                        <span>Thai Tea Boba</span>
+                    </a>
+                    
+                    <a href="https://tiktok.com/@bobalicius" class="social-link" target="_blank">
+                        <span class="social-icon"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/tiktok.svg" alt="TikTok"></span>
+                        <span>@bobalicius</span>
+                    </a>
+                    
+                    <a href="https://wa.me/6281362917112" class="social-link" target="_blank">
+                        <span class="social-icon"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/whatsapp.svg" alt="WhatsApp"></span>
+                        <span>WhatsApp</span>
+                    </a>
+                    
+                    <a href="mailto:bobalicius@gmail.com" class="social-link">
+                        <span class="social-icon"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/gmail.svg" alt="Email"></span>
+                        <span>Email</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    <script>
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+
+        // Navbar functionality
+        const navbar = document.getElementById('navbar');
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+        // Function to update navbar based on current section
+        function updateNavbar() {
+            const sections = document.querySelectorAll('.section');
+            const scrollPos = window.scrollY + 100;
+            
+            let currentSection = 'home';
+            
+            // Determine current section
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                
+                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                    currentSection = section.id;
+                }
+            });
+            
+            // Update navbar classes based on current section
+            navbar.classList.remove('home-section', 'other-section');
+            
+            if (currentSection === 'home') {
+                navbar.classList.add('home-section');
+            } else {
+                navbar.classList.add('other-section');
+            }
+            
+            // Add scrolled class if scrolled down
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            
+            // Update active nav links
+            updateActiveLinks(currentSection);
+        }
+
+        // Function to update active navigation links
+        function updateActiveLinks(currentSection) {
+            // Desktop links
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${currentSection}`) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Mobile links
+            mobileNavLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${currentSection}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Smooth scrolling for navigation links
+        function smoothScroll(target) {
+            const element = document.querySelector(target);
+            if (element) {
+                const offsetTop = element.offsetTop - 80;
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // Event listeners for navigation links
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = link.getAttribute('href');
+                smoothScroll(target);
+                
+                // Close mobile menu if open
+                closeMobileMenu();
+            });
+        });
+
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = link.getAttribute('href');
+                smoothScroll(target);
+                closeMobileMenu();
+            });
+        });
+
+        // Mobile menu functionality
+        function toggleMobileMenu() {
+            mobileMenu.classList.toggle('active');
+            mobileMenuOverlay.classList.toggle('active');
+            mobileMenuToggle.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        }
+
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('active');
+            mobileMenuOverlay.classList.remove('active');
+            mobileMenuToggle.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Event listeners
+        mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+        mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+
+        // Close mobile menu on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeMobileMenu();
+            }
+        });
+
+        // Scroll event listener
+        window.addEventListener('scroll', updateNavbar);
+
+        // Initialize navbar on page load
+        updateNavbar();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                closeMobileMenu();
+            }
+        });
+
+        // Scroll Detection and Animation
+        function handleScrollAnimations() {
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            const windowHeight = window.innerHeight;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+            animatedElements.forEach((element, index) => {
+                const elementTop = element.offsetTop;
+                const elementHeight = element.offsetHeight;
+                
+                // Trigger animation when element is 80% visible
+                if (scrollTop + windowHeight >= elementTop + (elementHeight * 0.2)) {
+                    element.classList.add('animated');
+                }
+            });
+        }
+
+        // Dynamic Navbar Color Based on Active Section
+        function initNavbarSectionDetection() {
+            const navbar = document.getElementById('navbar');
+            const sections = {
+                home: document.getElementById('home'),
+                products: document.getElementById('products'),
+                features: document.getElementById('features'),
+                contact: document.getElementById('contact')
+            };
+
+            // Options for the Intersection Observer
+            const observerOptions = {
+                root: null,
+                rootMargin: '-20% 0px -80% 0px', // Trigger when section is 20% visible
+                threshold: 0
+            };
+
+        // Create the observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const sectionId = entry.target.id;
+                        
+                        // Remove all section classes
+                        navbar.classList.remove('home-section', 'other-section');
+                        
+                        // Add appropriate class based on section
+                        if (sectionId === 'home') {
+                            navbar.classList.add('home-section');
+                            console.log('🏠 Home section active - Blur navbar');
+                        } else {
+                            navbar.classList.add('other-section');
+                            console.log(`📍 ${sectionId} section active - Black navbar`);
+                        }
+                        
+                        // Update active navigation links
+                        updateActiveNavLink(sectionId);
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all sections
+            Object.values(sections).forEach(section => {
+                if (section) {
+                    observer.observe(section);
+                }
+            });
+        }
+
+        // Enhanced Navbar Scroll Effect with Shadow
+        function handleNavbarScroll() {
+            const navbar = document.getElementById('navbar');
+            const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Add shadow effect for deep scrolling (independent of section)
+            if (scrollY > 200) {
+                navbar.classList.add('shadow-heavy');
+            } else {
+                navbar.classList.remove('shadow-heavy');
+            }
+        }
+
+        // Update active navigation links
+        function updateActiveNavLink(activeSection) {
+            const allNavLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+            
+            allNavLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${activeSection}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Navbar Scroll Effect
+        function handleNavbarScroll() {
+            const navbar = document.getElementById('navbar');
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        }
+
+        // Mobile Menu Toggle
+        function initMobileMenu() {
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+            // Toggle mobile menu
+            mobileMenuToggle.addEventListener('click', () => {
+                mobileMenuToggle.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+                mobileMenuOverlay.classList.toggle('active');
+                document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+            });
+
+            // Close mobile menu when overlay is clicked
+            mobileMenuOverlay.addEventListener('click', () => {
+                closeMobileMenu();
+            });
+
+            // Close mobile menu when a link is clicked
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    closeMobileMenu();
+                });
+            });
+
+            function closeMobileMenu() {
+                mobileMenuToggle.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                mobileMenuOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Smooth Scrolling for Navigation Links
+        function initSmoothScrolling() {
+            const navLinks = document.querySelectorAll('.nav-menu a[href^="#"]');
+            const ctaButton = document.querySelector('.hero-cta[href^="#"]');
+            
+            const smoothScroll = (targetId) => {
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const offsetTop = targetElement.offsetTop - 80; // Account for fixed navbar
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            };
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    smoothScroll(targetId);
+                });
+            });
+
+            if (ctaButton) {
+                ctaButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = ctaButton.getAttribute('href');
+                    smoothScroll(targetId);
+                });
+            }
+
+            // Update active state
+                    allNavLinks.forEach(l => l.classList.remove('active'));
+                    document.querySelectorAll(`a[href="${targetId}"]`).forEach(l => l.classList.add('active'));
+        }
+
+        // Active Section Highlighting
+        function initActiveSection() {
+            const sections = document.querySelectorAll('[id]');
+            const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+
+            const observerOptions = {
+                rootMargin: '-20% 0px -80% 0px',
+                threshold: 0
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const activeId = entry.target.id;
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${activeId}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            initMobileMenu();
+            initSmoothScrolling();
+            initActiveSection();
+            
+            // Add scroll listener
+            window.addEventListener('scroll', handleNavbarScroll);
+            
+            // Initial call to set navbar state
+            handleNavbarScroll();
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                const mobileMenu = document.getElementById('mobileMenu');
+                const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+                const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+                
+                mobileMenu.classList.remove('active');
+                mobileMenuToggle.classList.remove('active');
+                mobileMenuOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+         // Initialize navbar on page load
+            updateNavbar();
+
+            // Test mobile menu toggle after a short delay
+            setTimeout(function() {
+                console.log('Testing mobile menu elements...');
+                console.log('Toggle button exists:', !!mobileMenuToggle);
+                console.log('Mobile menu exists:', !!mobileMenu);
+                console.log('Mobile overlay exists:', !!mobileMenuOverlay);
+                console.log('Mobile nav links count:', mobileNavLinks.length);
+            }, 100);
+        });
+
+        // Product Detail Modal Functions
+        function showProductDetail(productName) {
+            const modal = document.getElementById('productModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDescription = document.getElementById('modalDescription');
+
+            const productDetails = {
+                'Classic Milk Tea': {
+                    title: '🥤 Classic Milk Tea',
+                    description: 'Rasakan kesempurnaan teh susu klasik yang tak lekang oleh waktu. Terbuat dari teh Ceylon premium yang diseduh dengan sempurna, dipadukan dengan susu segar berkualitas tinggi dan boba kenyal signature kami. Setiap tegukan memberikan harmoni rasa yang seimbang antara kekayaan teh dan kelembutan susu. Ditambah dengan boba hitam yang dimasak fresh setiap hari untuk memberikan tekstur yang sempurna. Minuman yang cocok untuk segala cuaca dan momen.'
+                },
+                'Taro Delight': {
+                    title: '🟣 Taro Delight',
+                    description: 'Nikmati kelezatan autentik Taiwan dengan Taro Delight kami. Dibuat dari akar taro asli yang dipilih secara khusus, memberikan rasa earthy yang khas dan tekstur creamy yang memanjakan lidah. Kombinasi unik antara rasa manis alami taro dan aroma yang khas menciptakan pengalaman minum yang nostalgia namun contemporary. Dilengkapi dengan boba taro yang memberikan sensasi tekstur berlapis. Perfect untuk pecinta rasa yang unik dan authentic.'
+                },
+                'Tropical Paradise': {
+                    title: '🌺 Tropical Paradise',
+                    description: 'Rasakan sensasi liburan tropis dalam setiap tegukan! Kombinasi eksotis dari mangga manis, passion fruit yang asam segar, dan nanas yang juicy menciptakan ledakan rasa tropis yang memukau. Diperkaya dengan rainbow boba yang colorful dan menyenangkan, memberikan visual yang Instagram-worthy. Minuman yang perfect untuk cuaca panas, memberikan kesegaran yang instant dan mood booster yang luar biasa. Escape to paradise!'
+                },
+                'Chocolate Heaven': {
+                    title: '🍫 Chocolate Heaven',
+                    description: 'Surga cokelat yang sesungguhnya! Dibuat dengan Belgian chocolate premium yang dilelehkan sempurna, dipadukan dengan susu silky yang creamy hingga menciptakan texture yang luxurious. Ditambah dengan chocolate-infused boba yang memberikan surprise cokelat di setiap gigitan. Rich, decadent, dan absolutely indulgent - perfect untuk chocolate lovers dan comfort drink di segala suasana. Pengalaman cokelat yang unforgettable!'
+                },
+                'Matcha Bliss': {
+                    title: '🍵 Matcha Bliss',
+                    description: 'Pengalaman zen autentik dari Jepang! Menggunakan matcha Uji premium grade yang dipetik langsung dari perkebunan teh terbaik di Kyoto. Rasa earthy yang balanced dengan slight bitterness yang sophisticated, memberikan pengalaman minum yang meditative dan calming. Kaya akan antioksidan dan L-theanine untuk manfaat kesehatan optimal. Dilengkapi dengan matcha boba yang memberikan konsistensi rasa hingga tegukan terakhir. Pure Japanese authenticity!'
+                },
+                'Strawberry Dream': {
+                    title: '🍓 Strawberry Dream',
+                    description: 'Manis alami dari strawberry segar pilihan lokal terbaik! Setiap buah strawberry dipilih dengan teliti untuk memastikan rasa dan aroma yang optimal. Diblend dengan susu creamy dan sedikit sentuhan vanilla untuk balance yang perfect. Warna pink yang natural dan Instagram-worthy, ditambah dengan strawberry boba yang juicy memberikan burst of flavor di setiap gigitan. Refreshing, sweet, dan absolutely dreamy!'
+                }
+            };
+
+            const product = productDetails[productName];
+            if (product) {
+                modalTitle.textContent = product.title;
+                modalDescription.textContent = product.description;
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            }
+        }
+
+        // Product detail popup
+        function showProductDetail(productName) {
+            const messages = {
+                'Classic Milk Tea': 'Classic Milk Tea kami dibuat dengan teh Ceylon premium dan susu segar, dilengkapi dengan boba tapioka yang dimasak hingga tekstur sempurna. Rasa yang autentik dan tidak terlalu manis!',
+                'Taro Delight': 'Taro Delight menggunakan taro asli Taiwan yang memberikan rasa earthy dan creamy yang khas. Boba kami yang kenyal menambah tekstur yang menyenangkan di setiap gigitan.',
+                'Tropical Paradise': 'Tropical Paradise adalah perpaduan mangga, nanas, dan passion fruit dengan boba rainbow yang colorful. Segar dan tropical, sempurna untuk cuaca panas!',
+                'Chocolate Heaven': 'Chocolate Heaven dibuat dengan cokelat Belgium premium dan boba cokelat yang lembut. Pengalaman chocolate yang rich dan indulgent!',
+                'Matcha Bliss': 'Matcha Bliss menggunakan bubuk matcha grade A langsung dari Uji, Jepang. Rasa yang balance antara pahit dan manis dengan tekstur creamy yang sempurna.',
+                'Strawberry Dream': 'Strawberry Dream dibuat dengan strawberry segar yang dipetik langsung, memberikan rasa manis alami yang segar dan menyegarkan.'
+            };
+            
+            alert(messages[productName] || 'Informasi produk tidak tersedia.');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('productModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        }
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            const modal = document.getElementById('productModal');
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Enhanced Floating Boba Animation
+        function createFloatingBoba() {
+            const hero = document.querySelector('.hero');
+            const floatingElements = document.querySelector('.floating-elements');
+            
+            // Create additional floating elements
+            for (let i = 0; i < 8; i++) {
+                const boba = document.createElement('div');
+                boba.className = 'floating-boba';
+                boba.style.top = Math.random() * 100 + '%';
+                boba.style.left = Math.random() * 100 + '%';
+                boba.style.animationDelay = Math.random() * 8 + 's';
+                boba.style.animationDuration = (6 + Math.random() * 4) + 's';
+                floatingElements.appendChild(boba);
+            }
+        }
+
+        // Performance Optimized Scroll Handler
+        let ticking = false;
+        function handleScroll() {
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    handleScrollAnimations();
+                    handleNavbarScroll();
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initial animation check
+            handleScrollAnimations();
+            
+            // Initialize smooth scrolling
+            initSmoothScrolling();
+            
+            // Add scroll event listener with throttling
+            window.addEventListener('scroll', handleScroll, { passive: true });
+            
+            // Create additional floating boba
+            createFloatingBoba();
+            
+            // Add loading animation delay for staggered effect
+            setTimeout(() => {
+                const elements = document.querySelectorAll('.animate-on-scroll');
+                elements.forEach((el, index) => {
+                    el.style.transitionDelay = (index * 0.1) + 's';
+                });
+            }, 100);
+        });
+
+        // Intersection Observer for better performance (alternative to scroll event)
+        if ('IntersectionObserver' in window) {
+            const observerOptions = {
+                threshold: 0.2,
+                rootMargin: '0px 0px -80px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                        observer.unobserve(entry.target); // Stop observing once animated
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all animated elements
+            document.addEventListener('DOMContentLoaded', () => {
+                const animatedElements = document.querySelectorAll('.animate-on-scroll');
+                animatedElements.forEach(el => observer.observe(el));
+            });
+        }
+
+        // Add some interactive features
+        document.addEventListener('DOMContentLoaded', function() {
+            // Product card hover sound effect (visual feedback)
+            const productCards = document.querySelectorAll('.product-card');
+            productCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Add ripple effect to CTA button
+            const ctaButton = document.querySelector('.hero-cta');
+            if (ctaButton) {
+                ctaButton.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.cssText = `
+                        position: absolute;
+                        width: ${size}px;
+                        height: ${size}px;
+                        left: ${x}px;
+                        top: ${y}px;
+                        background: rgba(255, 255, 255, 0.3);
+                        border-radius: 50%;
+                        transform: scale(0);
+                        animation: ripple 0.6s ease-out;
+                        pointer-events: none;
+                    `;
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            }
+        });
+
+        // Add CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+    </body>
+</html>
